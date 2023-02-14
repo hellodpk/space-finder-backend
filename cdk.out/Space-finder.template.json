@@ -1,5 +1,248 @@
 {
  "Resources": {
+  "SoaceApiCAAE5EEF": {
+   "Type": "AWS::ApiGateway::RestApi",
+   "Properties": {
+    "Name": "SoaceApi"
+   },
+   "Metadata": {
+    "aws:cdk:path": "Space-finder/SoaceApi/Resource"
+   }
+  },
+  "SoaceApiCloudWatchRole32279614": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "apigateway.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
+       ]
+      ]
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "Space-finder/SoaceApi/CloudWatchRole/Resource"
+   }
+  },
+  "SoaceApiAccount1E78DB32": {
+   "Type": "AWS::ApiGateway::Account",
+   "Properties": {
+    "CloudWatchRoleArn": {
+     "Fn::GetAtt": [
+      "SoaceApiCloudWatchRole32279614",
+      "Arn"
+     ]
+    }
+   },
+   "DependsOn": [
+    "SoaceApiCAAE5EEF"
+   ],
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "aws:cdk:path": "Space-finder/SoaceApi/Account"
+   }
+  },
+  "SoaceApiDeploymentE57E99EFffa9fc5d79786f4cd5c215108c6c610b": {
+   "Type": "AWS::ApiGateway::Deployment",
+   "Properties": {
+    "RestApiId": {
+     "Ref": "SoaceApiCAAE5EEF"
+    },
+    "Description": "Automatically created by the RestApi construct"
+   },
+   "DependsOn": [
+    "SoaceApihelloGet218BDDAA",
+    "SoaceApihello50B9AEA4"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "Space-finder/SoaceApi/Deployment/Resource"
+   }
+  },
+  "SoaceApiDeploymentStageprod9B75D2F8": {
+   "Type": "AWS::ApiGateway::Stage",
+   "Properties": {
+    "RestApiId": {
+     "Ref": "SoaceApiCAAE5EEF"
+    },
+    "DeploymentId": {
+     "Ref": "SoaceApiDeploymentE57E99EFffa9fc5d79786f4cd5c215108c6c610b"
+    },
+    "StageName": "prod"
+   },
+   "DependsOn": [
+    "SoaceApiAccount1E78DB32"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "Space-finder/SoaceApi/DeploymentStage.prod/Resource"
+   }
+  },
+  "SoaceApihello50B9AEA4": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "SoaceApiCAAE5EEF",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "hello",
+    "RestApiId": {
+     "Ref": "SoaceApiCAAE5EEF"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "Space-finder/SoaceApi/Default/hello/Resource"
+   }
+  },
+  "SoaceApihelloGetApiPermissionSpacefinderSoaceApiA72299D2GEThelloF45DABDA": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "helloLambda79DCE371",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "SoaceApiCAAE5EEF"
+       },
+       "/",
+       {
+        "Ref": "SoaceApiDeploymentStageprod9B75D2F8"
+       },
+       "/GET/hello"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "Space-finder/SoaceApi/Default/hello/Get/ApiPermission.SpacefinderSoaceApiA72299D2.GET..hello"
+   }
+  },
+  "SoaceApihelloGetApiPermissionTestSpacefinderSoaceApiA72299D2GEThelloC5118246": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "helloLambda79DCE371",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":execute-api:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":",
+       {
+        "Ref": "SoaceApiCAAE5EEF"
+       },
+       "/test-invoke-stage/GET/hello"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "Space-finder/SoaceApi/Default/hello/Get/ApiPermission.Test.SpacefinderSoaceApiA72299D2.GET..hello"
+   }
+  },
+  "SoaceApihelloGet218BDDAA": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "HttpMethod": "GET",
+    "ResourceId": {
+     "Ref": "SoaceApihello50B9AEA4"
+    },
+    "RestApiId": {
+     "Ref": "SoaceApiCAAE5EEF"
+    },
+    "AuthorizationType": "NONE",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":apigateway:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "helloLambda79DCE371",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "Space-finder/SoaceApi/Default/hello/Get/Resource"
+   }
+  },
   "helloLambdaServiceRoleBB046714": {
    "Type": "AWS::IAM::Role",
    "Properties": {
@@ -65,12 +308,40 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/zWNTQ6CMBCFz8K+jILGuBUTD4AHIKUdyfAzTZhWFw13t0BYfW/el8kr4XaFc6Z/khs75CO1EN9em0GlqomjnlqrIb4CG0+O1fPDR14U6Qli7UZc65WLkkujRdALPFakG6pgBvSVlqRrFBdmg2qzaagj7rbvQ6T8dGxpX2BnEXo5fYs7FCUUWS9E+RzY04RQ7/wDk+ZXT8QAAAA="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WQ0U7DMAxFv2XvqaEDIV67Id4QaHzAlKWmeG2SqnaYpqr/jkNAbE8+98q5vsoaHu7hdmVPXLm2rwY6wPwu1vVGrf1sR+qs4MmeYd4hSzOS2X6EC2yciymIecJxiGePiupeKE3rMHsF9GlMk8ON5X/xm1n4BeUzttkqtBiyXs/HoezpXMxg/aG1MKvxhpMnZorBPKfgJIPaf7wYvttbZhSGJg/VsEmuR8kdlqsSr0nGJOZnL/el0F11U97G0FIJDrFFOPLNV/0I9Rrq1ZGJqkm/gzzCrsxvBgD/NWIBAAA="
    },
    "Metadata": {
     "aws:cdk:path": "Space-finder/CDKMetadata/Default"
    },
    "Condition": "CDKMetadataAvailable"
+  }
+ },
+ "Outputs": {
+  "SoaceApiEndpoint94080D68": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "SoaceApiCAAE5EEF"
+      },
+      ".execute-api.",
+      {
+       "Ref": "AWS::Region"
+      },
+      ".",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "SoaceApiDeploymentStageprod9B75D2F8"
+      },
+      "/"
+     ]
+    ]
+   }
   }
  },
  "Conditions": {
