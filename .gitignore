@@ -104,4 +104,4 @@ dist
 .tern-port
 
 #cdk generated files
-cdk.out
+cdk.out/
