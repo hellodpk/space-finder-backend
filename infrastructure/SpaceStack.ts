@@ -4,10 +4,11 @@ import { Code, Function as LambdaFunction, Runtime } from 'aws-cdk-lib/aws-lambd
 import { join } from 'path';
 import {LambdaIntegration, RestApi} from 'aws-cdk-lib/aws-apigateway'
 import { GenericTable } from './GenericTable';
+import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 
 export class SpaceStack extends Stack{
 
-    private api= new RestApi(this,'SoaceApi');
+    private api= new RestApi(this,'SpaceApi');
     private spacesTable= new GenericTable(
         'SpacesTable',
         'spaceId',
@@ -23,6 +24,10 @@ export class SpaceStack extends Stack{
             handler:'hello.main'
         })
 
+        const helloLambdaNodeJs=new NodejsFunction(this,'helloLambdaNodeJs',{
+            entry:(join(__dirname,'..','services','node-lambda','hello.ts')),
+            handler:'handler'
+        })
             //hello Api lambda integration
             const helloLambdaIntegration=new LambdaIntegration(helloLambda)
             const helloLambdaResource=this.api.root.addResource('hello');

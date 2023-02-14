@@ -1,15 +1,15 @@
 {
  "Resources": {
-  "SoaceApiCAAE5EEF": {
+  "SpaceApi1B373D2B": {
    "Type": "AWS::ApiGateway::RestApi",
    "Properties": {
-    "Name": "SoaceApi"
+    "Name": "SpaceApi"
    },
    "Metadata": {
-    "aws:cdk:path": "Space-finder/SoaceApi/Resource"
+    "aws:cdk:path": "Space-finder/SpaceApi/Resource"
    }
   },
-  "SoaceApiCloudWatchRole32279614": {
+  "SpaceApiCloudWatchRole2811DDE0": {
    "Type": "AWS::IAM::Role",
    "Properties": {
     "AssumeRolePolicyDocument": {
@@ -42,81 +42,81 @@
    "UpdateReplacePolicy": "Retain",
    "DeletionPolicy": "Retain",
    "Metadata": {
-    "aws:cdk:path": "Space-finder/SoaceApi/CloudWatchRole/Resource"
+    "aws:cdk:path": "Space-finder/SpaceApi/CloudWatchRole/Resource"
    }
   },
-  "SoaceApiAccount1E78DB32": {
+  "SpaceApiAccount1ADAEF20": {
    "Type": "AWS::ApiGateway::Account",
    "Properties": {
     "CloudWatchRoleArn": {
      "Fn::GetAtt": [
-      "SoaceApiCloudWatchRole32279614",
+      "SpaceApiCloudWatchRole2811DDE0",
       "Arn"
      ]
     }
    },
    "DependsOn": [
-    "SoaceApiCAAE5EEF"
+    "SpaceApi1B373D2B"
    ],
    "UpdateReplacePolicy": "Retain",
    "DeletionPolicy": "Retain",
    "Metadata": {
-    "aws:cdk:path": "Space-finder/SoaceApi/Account"
+    "aws:cdk:path": "Space-finder/SpaceApi/Account"
    }
   },
-  "SoaceApiDeploymentE57E99EFffa9fc5d79786f4cd5c215108c6c610b": {
+  "SpaceApiDeploymentA2B9E765554aec58dc5d1be79899ce4101601e9d": {
    "Type": "AWS::ApiGateway::Deployment",
    "Properties": {
     "RestApiId": {
-     "Ref": "SoaceApiCAAE5EEF"
+     "Ref": "SpaceApi1B373D2B"
     },
     "Description": "Automatically created by the RestApi construct"
    },
    "DependsOn": [
-    "SoaceApihelloGet218BDDAA",
-    "SoaceApihello50B9AEA4"
+    "SpaceApihelloGet61E35731",
+    "SpaceApihelloDF776653"
    ],
    "Metadata": {
-    "aws:cdk:path": "Space-finder/SoaceApi/Deployment/Resource"
+    "aws:cdk:path": "Space-finder/SpaceApi/Deployment/Resource"
    }
   },
-  "SoaceApiDeploymentStageprod9B75D2F8": {
+  "SpaceApiDeploymentStageprodBB8A31FE": {
    "Type": "AWS::ApiGateway::Stage",
    "Properties": {
     "RestApiId": {
-     "Ref": "SoaceApiCAAE5EEF"
+     "Ref": "SpaceApi1B373D2B"
     },
     "DeploymentId": {
-     "Ref": "SoaceApiDeploymentE57E99EFffa9fc5d79786f4cd5c215108c6c610b"
+     "Ref": "SpaceApiDeploymentA2B9E765554aec58dc5d1be79899ce4101601e9d"
     },
     "StageName": "prod"
    },
    "DependsOn": [
-    "SoaceApiAccount1E78DB32"
+    "SpaceApiAccount1ADAEF20"
    ],
    "Metadata": {
-    "aws:cdk:path": "Space-finder/SoaceApi/DeploymentStage.prod/Resource"
+    "aws:cdk:path": "Space-finder/SpaceApi/DeploymentStage.prod/Resource"
    }
   },
-  "SoaceApihello50B9AEA4": {
+  "SpaceApihelloDF776653": {
    "Type": "AWS::ApiGateway::Resource",
    "Properties": {
     "ParentId": {
      "Fn::GetAtt": [
-      "SoaceApiCAAE5EEF",
+      "SpaceApi1B373D2B",
       "RootResourceId"
      ]
     },
     "PathPart": "hello",
     "RestApiId": {
-     "Ref": "SoaceApiCAAE5EEF"
+     "Ref": "SpaceApi1B373D2B"
     }
    },
    "Metadata": {
-    "aws:cdk:path": "Space-finder/SoaceApi/Default/hello/Resource"
+    "aws:cdk:path": "Space-finder/SpaceApi/Default/hello/Resource"
    }
   },
-  "SoaceApihelloGetApiPermissionSpacefinderSoaceApiA72299D2GEThelloF45DABDA": {
+  "SpaceApihelloGetApiPermissionSpacefinderSpaceApi0274A94DGEThello82D1F50A": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
     "Action": "lambda:InvokeFunction",
@@ -145,11 +145,11 @@
        },
        ":",
        {
-        "Ref": "SoaceApiCAAE5EEF"
+        "Ref": "SpaceApi1B373D2B"
        },
        "/",
        {
-        "Ref": "SoaceApiDeploymentStageprod9B75D2F8"
+        "Ref": "SpaceApiDeploymentStageprodBB8A31FE"
        },
        "/GET/hello"
       ]
@@ -157,10 +157,10 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "Space-finder/SoaceApi/Default/hello/Get/ApiPermission.SpacefinderSoaceApiA72299D2.GET..hello"
+    "aws:cdk:path": "Space-finder/SpaceApi/Default/hello/Get/ApiPermission.SpacefinderSpaceApi0274A94D.GET..hello"
    }
   },
-  "SoaceApihelloGetApiPermissionTestSpacefinderSoaceApiA72299D2GEThelloC5118246": {
+  "SpaceApihelloGetApiPermissionTestSpacefinderSpaceApi0274A94DGEThelloA03BC46D": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
     "Action": "lambda:InvokeFunction",
@@ -189,7 +189,7 @@
        },
        ":",
        {
-        "Ref": "SoaceApiCAAE5EEF"
+        "Ref": "SpaceApi1B373D2B"
        },
        "/test-invoke-stage/GET/hello"
       ]
@@ -197,18 +197,18 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "Space-finder/SoaceApi/Default/hello/Get/ApiPermission.Test.SpacefinderSoaceApiA72299D2.GET..hello"
+    "aws:cdk:path": "Space-finder/SpaceApi/Default/hello/Get/ApiPermission.Test.SpacefinderSpaceApi0274A94D.GET..hello"
    }
   },
-  "SoaceApihelloGet218BDDAA": {
+  "SpaceApihelloGet61E35731": {
    "Type": "AWS::ApiGateway::Method",
    "Properties": {
     "HttpMethod": "GET",
     "ResourceId": {
-     "Ref": "SoaceApihello50B9AEA4"
+     "Ref": "SpaceApihelloDF776653"
     },
     "RestApiId": {
-     "Ref": "SoaceApiCAAE5EEF"
+     "Ref": "SpaceApi1B373D2B"
     },
     "AuthorizationType": "NONE",
     "Integration": {
@@ -240,7 +240,7 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "Space-finder/SoaceApi/Default/hello/Get/Resource"
+    "aws:cdk:path": "Space-finder/SpaceApi/Default/hello/Get/Resource"
    }
   },
   "SpacesTable8A997355": {
@@ -332,10 +332,77 @@
     "aws:asset:property": "Code"
    }
   },
+  "helloLambdaNodeJsServiceRole17C143C3": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "Space-finder/helloLambdaNodeJs/ServiceRole/Resource"
+   }
+  },
+  "helloLambdaNodeJs14E63891": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "c24d4d387fe65efad83de03b6a8df266f53ddea1a1d82b5b04a436278ea6d529.zip"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "helloLambdaNodeJsServiceRole17C143C3",
+      "Arn"
+     ]
+    },
+    "Environment": {
+     "Variables": {
+      "AWS_NODEJS_CONNECTION_REUSE_ENABLED": "1"
+     }
+    },
+    "Handler": "index.handler",
+    "Runtime": "nodejs14.x"
+   },
+   "DependsOn": [
+    "helloLambdaNodeJsServiceRole17C143C3"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "Space-finder/helloLambdaNodeJs/Resource",
+    "aws:asset:path": "asset.c24d4d387fe65efad83de03b6a8df266f53ddea1a1d82b5b04a436278ea6d529",
+    "aws:asset:is-bundled": true,
+    "aws:asset:property": "Code"
+   }
+  },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WQQU/DMAyFf8vuaaADIa7dEDcEGtwnNzHDa5NUdcJUVf3vOAuI7eTvPTn2c9b64V7fruDElbFd1VOr5/cIplNi7WcY6AARTzDpeYccm4HU9tNfYGNMSD6qJxz6MDkUFPdCybQDZq+APA1pNLgB/he/Mwu/YPwKNluFFkXgZH3oS5/URfXgWgt6FuMNR0fMFLx6Tt7EDGL/8aLs5MEFK5d9QFuGnGFRfLcHZoysm1xE600yHcacbrmK95rikKI69+VLyB+uUgtvg7dUVvpgUR/55rt+1PVa16sjE1WjfBQ51LtSfwDS1+kzfAEAAA=="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WQT0/DMAzFP8vuqaEDIa7dEDf+aHCv0sR0aZukqhOmqup3x21AK6f381P8bGcPD/dwu5MXypRus85UMH0EqVrBVjnJ3tQy4EWOMJ2QQtEbcfxyGyyU8tEF8YR950eLjOxuKk6rcfEScKuPg8KDpGvxm5n4BcPZ68VKNAsjLY/3XXrHOotO2kpLmNh4x8EaIuOdeI5OhQXY/uNZ6NFJ6zVf9imrFLLCLOiulEQYCIpFuIZDVC2Gdbs0o3ReY0Pwuso1dbv7Wwx9DGINWc40rv53EvPRO21S5xIIDd1854+Q7yHfNWRMNvAvGotwSvoDqKJh7pkBAAA="
    },
    "Metadata": {
     "aws:cdk:path": "Space-finder/CDKMetadata/Default"
@@ -344,14 +411,14 @@
   }
  },
  "Outputs": {
-  "SoaceApiEndpoint94080D68": {
+  "SpaceApiEndpointDA7E4050": {
    "Value": {
     "Fn::Join": [
      "",
      [
       "https://",
       {
-       "Ref": "SoaceApiCAAE5EEF"
+       "Ref": "SpaceApi1B373D2B"
       },
       ".execute-api.",
       {
@@ -363,7 +430,7 @@
       },
       "/",
       {
-       "Ref": "SoaceApiDeploymentStageprod9B75D2F8"
+       "Ref": "SpaceApiDeploymentStageprodBB8A31FE"
       },
       "/"
      ]
