@@ -1,4 +1,13 @@
-@endpoint=https://cjuc795mtc.execute-api.us-west-2.amazonaws.com/prod/
+@endpoint= https://cjuc795mtc.execute-api.us-west-2.amazonaws.com/prod/
 
 GET {{endpoint}}/hello/
+###
+
+POST {{endpoint}}/spaces/
+Content-Type: application/json
+
+{
+    "location":"Oregon",
+    "name":"Best location"
+}
 ###

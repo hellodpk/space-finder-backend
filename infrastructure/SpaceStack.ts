@@ -6,15 +6,19 @@ import {LambdaIntegration, RestApi} from 'aws-cdk-lib/aws-apigateway'
 import { GenericTable } from './GenericTable';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import { PrimaryKey } from 'aws-cdk-lib/aws-appsync';
 
 export class SpaceStack extends Stack{
 
     private api= new RestApi(this,'SpaceApi');
-    private spacesTable= new GenericTable(
-        'SpacesTable',
-        'spaceId',
-        this
-    )
+
+
+    private spacesTable=new GenericTable(this,{
+         tableName:'SpacesTable',
+         primaryKey:'spaceId',
+         createLambdaPath:'Create'
+         }
+        )
 
     constructor(scope: Construct,id: string, props: StackProps){
         super(scope, id, props)
@@ -32,6 +36,10 @@ export class SpaceStack extends Stack{
             const helloLambdaIntegration=new LambdaIntegration(helloLambdaNodeJs)
             const helloLambdaResource=this.api.root.addResource('hello');
             helloLambdaResource.addMethod('Get',helloLambdaIntegration);
+
+            //Spaces API integration
+            const spaceResourse=this.api.root.addResource('spaces');
+            spaceResourse.addMethod('POST',this.spacesTable.createLambdaIntegration);
     }
 
 }
