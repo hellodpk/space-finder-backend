@@ -1,5 +1,5 @@
 import { DynamoDB} from 'aws-sdk';
-import {APIGatewayProxyEvent, Context, APIGatewayProxyResult} from 'aws-lambda'
+import {APIGatewayProxyEvent, Context, APIGatewayProxyResult} from 'aws-lambda';
 import { v4 } from 'uuid';
 
 
@@ -11,9 +11,8 @@ async function handler(event: APIGatewayProxyEvent,context:Context):Promise<APIG
         body:'Hello from DynamoDB'
     }
 
-    const item={
-        spaceId:v4()
-    }
+    const item= typeof event.body == 'object'? event.body: JSON.parse(event.body);
+    item.spaceId=v4()
 
     try{
         await dbClient.put({
@@ -23,7 +22,7 @@ async function handler(event: APIGatewayProxyEvent,context:Context):Promise<APIG
     } catch (error){
         result.body="error"
     }
-
+    result.body=JSON.stringify(`Created item with id: ${item.spaceId}`)
     return result
 }
 export {handler}
