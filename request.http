@@ -3,19 +3,8 @@
 GET {{endpoint}}/hello/
 ###
 
-GET {{endpoint}}/spaces?spaceId=3f13230f-68eb-4ef8-9cba-0ae065686c88
+GET {{endpoint}}/spaces
 ###
-
-PUT {{endpoint}}/spaces?spaceId=3f13230f-68eb-4ef8-9cba-0ae065686c88
-Content-Type: application/json
-{
-    "location":"Oregon222"
-}
-###
-
-GET {{endpoint}}/spaces?location=Oregon
-###
-
 POST {{endpoint}}/spaces/
 Content-Type: application/json
 
@@ -23,4 +12,18 @@ Content-Type: application/json
     "location":"Oregon",
     "name":"Best location"
 }
+###
+PUT {{endpoint}}/spaces?spaceId=d2b7b307-44d5-4f99-956f-ca1c333ca2a4
+Content-Type: application/json
+
+{
+    "location": "Updated Location ggg"
+}
+###
+
+
+DELETE {{endpoint}}/spaces?spaceId=d2b7b307-44d5-4f99-956f-ca1c333ca2a4
+###
+
+GET {{endpoint}}/spaces?location=Oregon
 ###
