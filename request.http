@@ -3,7 +3,7 @@
 GET {{endpoint}}/hello/
 ###
 
-GET {{endpoint}}/spaces?spaceId=3f13230f-68eb-4ef8-9cba-0ae065686c88
+GET {{endpoint}}/spaces?locations=Oregon
 ###
 
 POST {{endpoint}}/spaces/
